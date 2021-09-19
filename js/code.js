@@ -198,6 +198,11 @@ function addContact() {
         cell.innerHTML = "<button id=\"updateButton\" onclick=\"openEdit(this,"+cid+")\">edit</button>";
         cell = row.insertCell(5);
         cell.innerHTML = "<button id=\"removeButton\" onclick=\"openDelete(this,"+cid+")\">delete</button>";
+
+        document.getElementById("qFirstName").value = "";
+        document.getElementById("qLastName").value = "";
+        document.getElementById("qPhonenumber").value = "";
+        document.getElementById("qEmail").value = "";
       }
     };
 
