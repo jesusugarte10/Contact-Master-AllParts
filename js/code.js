@@ -301,7 +301,9 @@ function updateValue(){
 
 
 
-// Delete values -- need to fill in code template 
+// Delete values -- need to fill in code template
+// TODO: Grab contact from the database if they exist
+// TODO: if the contact exists, delete it from the database
 function deleteValue(){
 
 	// Preliminary information
@@ -309,8 +311,8 @@ function deleteValue(){
 	let result = document.getElementById("updateValueResult").innerHTML;
 
 	// grab identifiable piece of information about the contact
-	var deleteMe = document.getElementById("cID").value;
-	var tmp = {deleteMe:deleteMe,userId:userId};
+	var value = document.getElementById("cID").value;
+	var tmp = {value:value,userId:userId};
 
 	// package data and send to SearchContact.php
 	var jsonPayload = JSON.stringify( tmp );
@@ -336,6 +338,7 @@ function deleteValue(){
 	
 	
 				// if the contact exists, grab the contactid and the logged in user's id
+				// send to Delete Contact
 	
 			}
 		};
@@ -346,7 +349,7 @@ function deleteValue(){
 		 result = err.message;
 	}
 
-	// send to Delete Contact
+	
 	
 
 
