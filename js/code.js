@@ -123,7 +123,7 @@ function addUser() {
     return;
   }
 
-  var jsonPayload = JSON.stringify({login:login, password:password});
+  var jsonPayload = JSON.stringify({firstName:firstName, lastName:lastName, login:login, password:password});
   var url = urlBase + '/Registration.php';
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -198,6 +198,11 @@ function addContact() {
         cell.innerHTML = "<button id=\"updateButton\" onclick=\"openEdit(this,"+cid+")\">edit</button>";
         cell = row.insertCell(5);
         cell.innerHTML = "<button id=\"removeButton\" onclick=\"openDelete(this,"+cid+")\">delete</button>";
+
+        document.getElementById("qFirstName").value = "";
+        document.getElementById("qLastName").value = "";
+        document.getElementById("qPhonenumber").value = "";
+        document.getElementById("qEmail").value = "";
       }
     };
 
