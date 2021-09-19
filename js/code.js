@@ -300,13 +300,58 @@ function updateValue(){
 
 
 
-// Delete values -- incomplete
-function deleteValue(){
-	var del = document.getElementById("updateText").value;
-	var cat = document.getElementById("valueCat").value;
 
-	//delete the value from data
+// Delete values -- need to fill in code template 
+function deleteValue(){
+
+	// Preliminary information
+	var url = urlBase + '/DeleteContact.' + extension;
+	let result = document.getElementById("updateValueResult").innerHTML;
+
+	// grab identifiable piece of information about the contact
+	var deleteMe = document.getElementById("cID").value;
+	var tmp = {deleteMe:deleteMe,userId:userId};
+
+	// package data and send to SearchContact.php
+	var jsonPayload = JSON.stringify( tmp );
+	searchURL = urlBase + '/SearchContact.' + extension;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", searchURL, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				// grab search data
+				var jsonObject = JSON.parse( xhr.responseText );
+				var jsonResults = jsonObject.results;
+
+
+				// look for a value that matches deleteMe
+				console.log(jsonResults);
+	
+	
+				// if the contact exists, grab the contactid and the logged in user's id
+	
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		 result = err.message;
+	}
+
+	// send to Delete Contact
+	
+
+
 }
+
 
 //----------Registration and Add Contact Form Overlay & Validation----------
 function openFormReg(){
