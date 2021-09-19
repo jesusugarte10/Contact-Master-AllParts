@@ -123,7 +123,7 @@ function addUser() {
     return;
   }
 
-  var jsonPayload = JSON.stringify({login:login, password:password});
+  var jsonPayload = JSON.stringify({firstName:firstName, lastName:lastName, login:login, password:password});
   var url = urlBase + '/Registration.php';
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
