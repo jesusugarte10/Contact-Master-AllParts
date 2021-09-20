@@ -22,7 +22,7 @@
         $searchResults .= ", ";
       }
       $searchCount++;
-      $searchResults .= '{"id":'.$row["ID"].', "firstName":"'.$row["FirstName"].'", "lastName":"'.$row["LastName"].'", "phonenumber":"'.$row["Phonenumber"].'", "email":"'.$row["Email"].'"}';
+      $searchResults .= '{"id":'.$row["ID"].', "firstName":"'.$row["FirstName"].'", "lastName":"'.$row["LastName"].'", "phonenumber":"'.$row["Phonenumber"].'", "email":"'.$row["Email"].'", "avatar":'.$row["Avatar"].'}';
     }
 
     if ($searchCount == 0) {

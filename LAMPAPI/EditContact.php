@@ -9,8 +9,8 @@
   if ($conn->connect_error) {
     returnWithError($conn->connect_error);
   } else {
-    $stmt = $conn->prepare("UPDATE Contacts SET FirstName=?, LastName=?, Phonenumber=?, Email=? WHERE ID=? AND UserID=?;");
-    $stmt->bind_param("ssssii", $inData["firstName"], $inData["lastName"], $inData["phonenumber"], $inData["email"], $inData["contactid"], $inData["userid"]);
+    $stmt = $conn->prepare("UPDATE Contacts SET FirstName=?, LastName=?, Phonenumber=?, Email=?, Avatar=? WHERE ID=? AND UserID=?;");
+    $stmt->bind_param("ssssiii", $inData["firstName"], $inData["lastName"], $inData["phonenumber"], $inData["email"], $inData["avatar"], $inData["contactid"], $inData["userid"]);
     $stmt->execute();
 
     if ($conn->affected_rows == 0) {
