@@ -128,8 +128,8 @@ function addUser() {
   } else if (!login){
     displayError("Missing username");
     return;
-  } else if (!password) {
-    displayError("Missing password");
+  } else if (!password && password.length < 8) {
+    displayError("Please enter a 7 digit long password");
     return;
   } else if (password != passwordConfirm) {
     displayError("Passwords do not match");
