@@ -7,6 +7,12 @@ var lastName = "";
 var curRow = null;
 var curContact = 0;
 
+
+function validateEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
 var clickEvent = new MouseEvent("click", {
   "view": window,
   "bubbles": true,
@@ -165,6 +171,16 @@ function addContact() {
   var qPhonenumber = document.getElementById("qPhonenumber").value;
   var qEmail = document.getElementById("qEmail").value;
 
+  if (!validateEmail(qEmail)){
+    displayError("Please enter correct Email Format");
+    return;
+  }
+
+  if (qPhonenumber.length != 10){
+    displayError("Please enter correct phone number lenght");
+    return;
+  }
+
   if (!qFirstName && !qLastName) {
     displayError("Missing name for new contact");
     return;
@@ -318,6 +334,21 @@ function editContact() {
   var eLastName = document.getElementById("eLastName").value;
   var ePhonenumber = document.getElementById("ePhonenumber").value;
   var eEmail = document.getElementById("eEmail").value;
+
+  if (!validateEmail(eEmail)){
+    displayError("Please enter correct Email Format");
+    return;
+  }
+
+  if (ePhonenumber.length != 10){
+    displayError("Please enter correct phone number lenght");
+    return;
+  }
+
+  if (!eFirstName && !eLastName) {
+    displayError("Missing name for contact edit");
+    return;
+  }
 
   var jsonPayload = JSON.stringify({firstName:eFirstName,lastName:eLastName,phonenumber:ePhonenumber,email:eEmail,avatar:avatar,contactid:curContact,userid:userId});
   var url = urlBase + '/EditContact.php';
