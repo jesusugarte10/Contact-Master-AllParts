@@ -3,8 +3,15 @@ var urlBase = 'http://contactmaster.xyz/LAMPAPI';
 var userId = 0;
 var firstName = "";
 var lastName = "";
+
 var curRow = null;
 var curContact = 0;
+
+var clickEvent = new MouseEvent("click", {
+  "view": window,
+  "bubbles": true,
+  "cancelable": false
+});
 
 function displaySuccess(msg) {
   var x = document.getElementById("greenSnackbar");
@@ -187,16 +194,18 @@ function addContact() {
 
         var row = table.insertRow(-1);
         var cell = row.insertCell(0);
+        cell.innerHTML = "<img class=\"profile\" src=\"images/avatar-0.png\">";
+        var cell = row.insertCell(1);
         cell.innerHTML = qFirstName;
-        cell = row.insertCell(1);
-        cell.innerHTML = qLastName;
         cell = row.insertCell(2);
-        cell.innerHTML = qPhonenumber;
+        cell.innerHTML = qLastName;
         cell = row.insertCell(3);
-        cell.innerHTML = qEmail;
+        cell.innerHTML = qPhonenumber;
         cell = row.insertCell(4);
-        cell.innerHTML = "<button id=\"updateButton\" onclick=\"openEdit(this,"+cid+")\">edit</button>";
+        cell.innerHTML = qEmail;
         cell = row.insertCell(5);
+        cell.innerHTML = "<button id=\"updateButton\" onclick=\"openEdit(this,"+cid+")\">edit</button>";
+        cell = row.insertCell(6);
         cell.innerHTML = "<button id=\"removeButton\" onclick=\"openDelete(this,"+cid+")\">delete</button>";
 
         document.getElementById("qFirstName").value = "";
@@ -245,16 +254,18 @@ function searchContact() {
         for (var i=0; i<results.length; i++) {
           var row = table.insertRow(i);
           var cell = row.insertCell(0);
+          cell.innerHTML = "<img class=\"profile\" src=\"images/avatar-"+results[i].avatar+".png\">";
+          var cell = row.insertCell(1);
           cell.innerHTML = results[i].firstName;
-          cell = row.insertCell(1);
-          cell.innerHTML = results[i].lastName;
           cell = row.insertCell(2);
-          cell.innerHTML = results[i].phonenumber;
+          cell.innerHTML = results[i].lastName;
           cell = row.insertCell(3);
-          cell.innerHTML = results[i].email;
+          cell.innerHTML = results[i].phonenumber;
           cell = row.insertCell(4);
-          cell.innerHTML = "<button id=\"updateButton\" onclick=\"openEdit(this,"+results[i].id+")\">edit</button>";
+          cell.innerHTML = results[i].email;
           cell = row.insertCell(5);
+          cell.innerHTML = "<button id=\"updateButton\" onclick=\"openEdit(this,"+results[i].id+")\">edit</button>";
+          cell = row.insertCell(6);
           cell.innerHTML = "<button id=\"removeButton\" onclick=\"openDelete(this,"+results[i].id+")\">delete</button>";
         }
       }
@@ -272,10 +283,14 @@ function openEdit(button, cid) {
   curContact = cid;
 
   var cells = curRow.getElementsByTagName("td");
-  document.getElementById("eFirstName").value = cells[0].innerHTML;
-  document.getElementById("eLastName").value = cells[1].innerHTML;
-  document.getElementById("ePhonenumber").value = cells[2].innerHTML;
-  document.getElementById("eEmail").value = cells[3].innerHTML;
+  var avatar = cells[0].getElementsByTagName("img")[0].src;
+  avatar = avatar.charAt(avatar.length - 5);
+
+  document.getElementById("editForm").getElementsByClassName("pic")[avatar].dispatchEvent(clickEvent);
+  document.getElementById("eFirstName").value = cells[1].innerHTML;
+  document.getElementById("eLastName").value = cells[2].innerHTML;
+  document.getElementById("ePhonenumber").value = cells[3].innerHTML;
+  document.getElementById("eEmail").value = cells[4].innerHTML;
 
   document.getElementById("overlay").style.display = "block";
   document.getElementById("editForm").style.display = "block";
@@ -285,6 +300,7 @@ function closeEdit() {
   curRow = null;
   curContact = 0;
 
+  document.getElementById("editForm").getElementsByClassName("pic")[0].dispatchEvent(clickEvent);
   document.getElementById("eFirstName").value = "";
   document.getElementById("eLastName").value = "";
   document.getElementById("ePhonenumber").value = "";
@@ -295,12 +311,15 @@ function closeEdit() {
 }
 
 function editContact() {
+  var avatar = document.getElementsByClassName("active")[0].src;
+  avatar = avatar.charAt(avatar.length - 5);
+  
   var eFirstName = document.getElementById("eFirstName").value;
   var eLastName = document.getElementById("eLastName").value;
   var ePhonenumber = document.getElementById("ePhonenumber").value;
   var eEmail = document.getElementById("eEmail").value;
 
-  var jsonPayload = JSON.stringify({firstName:eFirstName,lastName:eLastName,phonenumber:ePhonenumber,email:eEmail,contactid:curContact,userid:userId});
+  var jsonPayload = JSON.stringify({firstName:eFirstName,lastName:eLastName,phonenumber:ePhonenumber,email:eEmail,avatar:avatar,contactid:curContact,userid:userId});
   var url = urlBase + '/EditContact.php';
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -320,10 +339,11 @@ function editContact() {
         }
 
         var cells = curRow.getElementsByTagName("td");
-        cells[0].innerHTML = eFirstName;
-        cells[1].innerHTML = eLastName;
-        cells[2].innerHTML = ePhonenumber;
-        cells[3].innerHTML = eEmail;
+        cells[0].getElementsByTagName("img")[0].src = "images/avatar-"+avatar+".png";
+        cells[1].innerHTML = eFirstName;
+        cells[2].innerHTML = eLastName;
+        cells[3].innerHTML = ePhonenumber;
+        cells[4].innerHTML = eEmail;
 
         closeEdit();
       }
@@ -346,6 +366,7 @@ function openDelete(button, cid) {
   delCells[1].innerHTML = cells[1].innerHTML;
   delCells[2].innerHTML = cells[2].innerHTML;
   delCells[3].innerHTML = cells[3].innerHTML;
+  delCells[4].innerHTML = cells[4].innerHTML;
 
   document.getElementById("overlay").style.display = "block";
   document.getElementById("deleteForm").style.display = "block";
@@ -360,6 +381,7 @@ function closeDelete() {
   delCells[1].innerHTML = "";
   delCells[2].innerHTML = "";
   delCells[3].innerHTML = "";
+  delCells[4].innerHTML = "";
 
   document.getElementById("deleteForm").style.display = "none";
   document.getElementById("overlay").style.display = "none";
@@ -394,6 +416,18 @@ function deleteContact() {
 
   } catch(err) {
     displayError(err.message);
+  }
+}
+
+var pics = document.getElementById("editForm");
+if (pics != null) {
+  pics = pics.getElementsByClassName("pic");
+  for (var i = 0; i < pics.length; i++) {
+    pics[i].addEventListener("click", function() {
+      var cur = document.getElementsByClassName("active");
+      cur[0].className = cur[0].className.replace(" active", "");
+      this.className += " active";
+    });
   }
 }
 

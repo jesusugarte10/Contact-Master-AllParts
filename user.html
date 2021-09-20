@@ -43,12 +43,13 @@
     <table id="resultsTable" cellpadding=5pc>
     <thead>
       <tr style="background: transparent;">
-        <th colspan="5" id="resultsTitle">Contacts of John Wick</th>
+        <th colspan="6" id="resultsTitle">Contacts of John Wick</th>
         <th>
           <button type="button" id="logoutButton" onclick="doLogout()">Logout</button>
         </th>
       </tr>
       <tr id="resultsHead">
+        <th width="5%"></th>
         <th width="21%">First Name</th>
         <th width="21%">Last Name</th>
         <th width="21%">Phone Number</th>
@@ -67,6 +68,18 @@
   <div id="overlay">
     <div id="editForm">
       <h3 style="text-align: center;">Edit Contact</h3>
+      <div style="display: flex; justify-content: space-evenly;">
+        <input type="image" class="pic active" src="images/avatar-0.png"/>
+        <input type="image" class="pic" src="images/avatar-1.png"/>
+        <input type="image" class="pic" src="images/avatar-2.png"/>
+        <input type="image" class="pic" src="images/avatar-3.png"/>
+        <input type="image" class="pic" src="images/avatar-4.png"/>
+        <input type="image" class="pic" src="images/avatar-5.png"/>
+        <input type="image" class="pic" src="images/avatar-6.png"/>
+        <input type="image" class="pic" src="images/avatar-7.png"/>
+        <input type="image" class="pic" src="images/avatar-8.png"/>
+        <input type="image" class="pic" src="images/avatar-9.png"/>
+      </div>
       <input class="form" type="text" id="eFirstName" placeholder="First Name">
       <input class="form" type="text" id="eLastName" placeholder="Last Name">
       <input class="form" type="text" id="ePhonenumber" placeholder="Phone Number">
@@ -82,14 +95,16 @@
       <table id="deleteTable" cellpadding=5pc>
       <thead>
         <tr id="deleteHead">
-          <th width="25%">First Name</th>
-          <th width="25%">Last Name</th>
-          <th width="25%">Phone Number</th>
-          <th width="25%">Email</th>
+          <th width="5%"></th>
+          <th width="23.5%">First Name</th>
+          <th width="23.5%">Last Name</th>
+          <th width="23.5%">Phone Number</th>
+          <th width="23.5%">Email</th>
         </tr>
       </thead>
 
       <tbody id="deleteBody">
+        <td></td>
         <td>First Name</td>
         <td>Last Name</td>
         <td>Phone Number</td>
